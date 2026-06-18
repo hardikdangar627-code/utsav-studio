@@ -1,12 +1,11 @@
 // ═══════════════════════════════════════════════════════════════
-// THE UTSAV STUDIO — Backend Server
+// THE UTSAV STUDIO — Backend Server (Vercel Compatible)
 // ═══════════════════════════════════════════════════════════════
 
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
-const fs = require('fs');
 const path = require('path');
 
 const app = express();
@@ -20,25 +19,11 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files (the HTML website)
 app.use(express.static(path.join(__dirname)));
 
-// ── DATA STORAGE ───────────────────────────────────────────────
-const DATA_FILE = path.join(__dirname, 'submissions.json');
-
-function loadSubmissions() {
-  try {
-    if (fs.existsSync(DATA_FILE)) {
-      return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
-    }
-  } catch (e) {
-    console.error('Error loading submissions:', e.message);
-  }
-  return [];
-}
-
-function saveSubmission(entry) {
-  const submissions = loadSubmissions();
-  submissions.push(entry);
-  fs.writeFileSync(DATA_FILE, JSON.stringify(submissions, null, 2), 'utf8');
-}
+// ── IN-MEMORY STORAGE (Vercel ke liye) ────────────────────────
+// NOTE: Vercel serverless hai — file system permanent nahi hota.
+// Submissions memory mein rahenge (server restart pe reset honge).
+// Permanent storage ke liye database use karo (MongoDB Atlas free tier).
+let submissions = [];
 
 // ── EMAIL TRANSPORTER ──────────────────────────────────────────
 let transporter = null;
@@ -53,18 +38,17 @@ async function initTransporter() {
       },
     });
 
-    // Verify connection
     try {
       await transporter.verify();
       console.log('✉️  Email transporter ready — notifications ON');
     } catch (err) {
       console.warn('⚠️  Email verification failed:', err.message);
-      console.warn('   Form submissions will still be saved locally.');
+      console.warn('   EMAIL_USER aur EMAIL_PASS check karo .env mein.');
       transporter = null;
     }
   } else {
-    console.log('ℹ️  No email credentials found — submissions saved locally only.');
-    console.log('   Set EMAIL_USER and EMAIL_PASS in .env to enable email notifications.');
+    console.log('ℹ️  EMAIL_USER / EMAIL_PASS nahi mila — email band hai.');
+    console.log('   Vercel > Settings > Environment Variables mein daalo.');
   }
 }
 
@@ -88,21 +72,24 @@ async function sendNotificationEmail(data) {
           <tr><td style="padding:10px;color:#C9A84C;font-weight:bold;vertical-align:top;">💬 Message</td><td style="padding:10px;line-height:1.6;">${data.message || 'No message'}</td></tr>
         </table>
         <p style="color:#999;font-size:12px;margin-top:24px;">Submitted at: ${new Date(data.submittedAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+        <div style="margin-top:24px;padding:16px;background:#fff8e7;border-radius:4px;border-left:4px solid #C9A84C;">
+          <p style="margin:0;color:#7A6F5A;font-size:13px;">📱 Client ko WhatsApp karo: <a href="https://wa.me/91${data.phone}" style="color:#C9A84C;">wa.me/91${data.phone}</a></p>
+        </div>
       </div>
     `,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('✅ Notification email sent for:', data.name);
+    console.log('✅ Email bhej di:', data.name);
   } catch (err) {
-    console.error('❌ Email send failed:', err.message);
+    console.error('❌ Email nahi gayi:', err.message);
   }
 }
 
 // ── API ROUTES ─────────────────────────────────────────────────
 
-// POST /api/contact — Handle contact form submissions
+// POST /api/contact — Form submission handle karo
 app.post('/api/contact', async (req, res) => {
   try {
     const { name, phone, email, date, service, message } = req.body;
@@ -126,16 +113,16 @@ app.post('/api/contact', async (req, res) => {
       submittedAt: new Date().toISOString(),
     };
 
-    // Save to JSON file
-    saveSubmission(entry);
-    console.log(`📩 New submission from: ${entry.name} (${entry.phone})`);
+    // Memory mein save karo (Vercel compatible)
+    submissions.push(entry);
+    console.log(`📩 New submission: ${entry.name} (${entry.phone})`);
 
-    // Send email notification (non-blocking)
+    // Email bhejo (non-blocking)
     sendNotificationEmail(entry).catch(() => {});
 
     res.json({
       success: true,
-      message: 'Thank you! We\'ll contact you within 24 hours.',
+      message: "Thank you! We'll contact you within 24 hours.",
       id: entry.id,
     });
   } catch (err) {
@@ -144,35 +131,33 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// GET /api/submissions — View all submissions (protected by simple key)
+// GET /api/submissions — Saari submissions dekho (admin only)
 app.get('/api/submissions', (req, res) => {
   const key = req.query.key;
   if (!process.env.ADMIN_KEY || key !== process.env.ADMIN_KEY) {
     return res.status(403).json({ error: 'Access denied.' });
   }
-  const submissions = loadSubmissions();
   res.json({ total: submissions.length, submissions });
 });
 
-// DELETE /api/submissions/:id — Delete a submission
+// DELETE /api/submissions/:id — Ek submission delete karo
 app.delete('/api/submissions/:id', (req, res) => {
   const key = req.query.key;
   if (!process.env.ADMIN_KEY || key !== process.env.ADMIN_KEY) {
     return res.status(403).json({ error: 'Access denied.' });
   }
 
-  const submissions = loadSubmissions();
-  const filtered = submissions.filter((s) => s.id !== req.params.id);
+  const before = submissions.length;
+  submissions = submissions.filter((s) => s.id !== req.params.id);
 
-  if (filtered.length === submissions.length) {
+  if (submissions.length === before) {
     return res.status(404).json({ error: 'Submission not found.' });
   }
 
-  fs.writeFileSync(DATA_FILE, JSON.stringify(filtered, null, 2), 'utf8');
   res.json({ success: true, message: 'Submission deleted.' });
 });
 
-// POST /api/chat — AI Chat proxy (keeps API key server-side)
+// POST /api/chat — AI Chat proxy
 app.post('/api/chat', async (req, res) => {
   try {
     const { messages } = req.body;
@@ -219,7 +204,7 @@ Instagram: @the_utsav_studio
 Google Reviews: https://share.google/TR4TEB9vTRTbCA0PC
 
 Always end with a warm tone. If someone asks about booking, suggest they fill the contact form or WhatsApp directly.`,
-        messages: messages.slice(-10), // Keep last 10 messages for context
+        messages: messages.slice(-10),
       }),
     });
 
@@ -237,7 +222,7 @@ Always end with a warm tone. If someone asks about booking, suggest they fill th
   }
 });
 
-// GET / — Serve the main HTML page
+// GET / — Main HTML page serve karo
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'utsav-html.html'));
 });
