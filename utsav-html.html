@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>The Utsav Studio | Wedding Photography & Cinematography</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#FAFAF7;color:#1A1208;overflow-x:hidden;cursor:none}
+
+/* ── CURSOR ── */
+#cur-ring{position:fixed;width:32px;height:32px;border:1.5px solid #C9A84C;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .25s,height .25s,opacity .25s;animation:cursorRing 2.5s ease-in-out infinite}
+#cur-dot{position:fixed;width:5px;height:5px;background:#C9A84C;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:all .1s}
+#cur-ring.big{width:50px;height:50px;opacity:.7}
+
+/* ── KEYFRAMES ── */
+@keyframes cursorRing{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.15)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes shimmer{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes pulseWA{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%{box-shadow:0 0 0 14px rgba(37,211,102,0)}}
+@keyframes pulseGR{0%,100%{box-shadow:0 0 0 0 rgba(66,133,244,.5)}70%{box-shadow:0 0 0 14px rgba(66,133,244,0)}}
+@keyframes pulseG{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.5)}70%{box-shadow:0 0 0 14px rgba(201,168,76,0)}}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes heroFade{0%{opacity:0;transform:translateY(10px)}20%{opacity:1;transform:translateY(0)}80%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-10px)}}
+@keyframes scrollLine{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ── NAVBAR ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:all .35s}
+nav.scrolled{background:rgba(250,250,247,.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,.25)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;letter-spacing:3px;color:#C9A84C;display:flex;align-items:center;gap:6px;cursor:none;background:none;border:none;padding:0}
+.logo span.light{font-weight:300;color:#1A1208;margin:0 3px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-link{background:none;border:none;color:#1A1208;cursor:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color .3s;font-family:'Inter',sans-serif;padding:4px 0}
+.nav-link:hover{color:#C9A84C}
+.nav-book{background:#C9A84C;color:#fff;padding:10px 22px;text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;display:flex;align-items:center;gap:7px;transition:background .3s}
+.nav-book:hover{background:#b8922f}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:8px}
+.burger span{display:block;width:22px;height:1.5px;background:#C9A84C;transition:all .3s}
+
+/* ── MOBILE MENU ── */
+#mob-menu{position:fixed;top:72px;left:0;right:0;z-index:999;background:rgba(250,250,247,.98);border-bottom:1px solid rgba(201,168,76,.2);max-height:0;overflow:hidden;transition:max-height .4s,padding .4s;display:flex;flex-direction:column;gap:4px;padding:0 28px}
+#mob-menu.open{max-height:420px;padding:24px 28px}
+.mob-link{background:none;border:none;color:#1A1208;cursor:none;font-size:12px;letter-spacing:4px;text-transform:uppercase;font-family:'Inter',sans-serif;text-align:left;padding:10px 0;border-bottom:1px solid rgba(201,168,76,.12);transition:color .3s}
+.mob-book{background:#C9A84C;color:#fff;padding:13px 24px;text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;display:inline-flex;align-items:center;gap:8px;width:fit-content;margin-top:12px}
+
+/* ── HERO ── */
+#home{height:100vh;min-height:600px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:80px 24px 40px}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(250,250,247,.9) 0%,rgba(250,250,247,.7) 50%,rgba(250,250,247,.92) 100%)}
+.mandala{position:absolute;width:min(700px,95vw);height:min(700px,95vw);opacity:.07;animation:rotate 80s linear infinite;top:50%;left:50%;transform-origin:center;pointer-events:none}
+.hero-content{position:relative;z-index:1;animation:fadeUp .9s ease forwards}
+.hero-emoji{font-size:32px;margin-bottom:22px;display:block;animation:float 4s ease-in-out infinite}
+.hero-eyebrow{font-size:10px;letter-spacing:8px;color:#C9A84C;text-transform:uppercase;margin-bottom:18px;font-family:'Inter',sans-serif}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(50px,9vw,96px);font-weight:300;letter-spacing:8px;line-height:1;color:#1A1208}
+.hero-h1 .gold{color:#C9A84C;font-weight:600}
+.hero-h1b{font-family:'Cormorant Garamond',serif;font-size:clamp(50px,9vw,96px);font-weight:300;letter-spacing:14px;line-height:1.1;color:#1A1208;margin-bottom:20px}
+.hero-ticker-wrap{height:40px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;overflow:hidden}
+.hero-ticker-line{display:flex;align-items:center;gap:12px}
+.ticker-bar{width:30px;height:1px;background:#C9A84C}
+#hero-line{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(16px,2.2vw,22px);color:#C9A84C;letter-spacing:2px;white-space:nowrap;transition:opacity .4s,transform .4s}
+#hero-line.fade{opacity:0;transform:translateY(-8px)}
+.divider{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:26px}
+.div-line{width:60px;height:1px;background:rgba(201,168,76,.5)}
+.div-diamond{width:6px;height:6px;background:#C9A84C;transform:rotate(45deg)}
+.hero-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(15px,2vw,20px);font-style:italic;color:#7A6F5A;max-width:520px;line-height:1.9;margin:0 auto 46px}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-gold{background:#C9A84C;color:#fff;padding:16px 42px;text-decoration:none;font-size:10px;letter-spacing:4px;text-transform:uppercase;font-weight:700;animation:pulseG 2.5s infinite;display:inline-flex;align-items:center;gap:8px;transition:background .3s}
+.btn-outline{background:transparent;color:#1A1208;border:1px solid rgba(26,18,8,.3);padding:16px 42px;cursor:none;font-size:10px;letter-spacing:4px;text-transform:uppercase;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:8px;transition:border-color .3s}
+.scroll-hint{position:absolute;bottom:32px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.scroll-hint p{font-size:9px;letter-spacing:4px;color:#C9A84C;text-transform:uppercase}
+.scroll-hint-line{width:1px;height:44px;background:linear-gradient(to bottom,#C9A84C,transparent);animation:shimmer 2s ease-in-out infinite}
+
+/* ── SECTION HEADER ── */
+.sec-header{text-align:center;margin-bottom:64px}
+.sec-eyebrow{font-size:10px;letter-spacing:6px;color:#C9A84C;text-transform:uppercase;margin-bottom:14px;font-family:'Inter',sans-serif}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,52px);font-weight:300;letter-spacing:4px;color:#1A1208;margin:0 0 20px}
+.sec-ornament{display:flex;align-items:center;justify-content:center;gap:10px}
+.orn-line{width:48px;height:1px;background:#C9A84C}
+.orn-diamond{width:5px;height:5px;background:#C9A84C;transform:rotate(45deg)}
+
+/* ── SERVICES ── */
+#services{padding:100px 48px;background:#F4F0E8}
+.svc-intro{max-width:800px;margin:0 auto 72px;text-align:center}
+.svc-intro p{font-family:'Cormorant Garamond',serif;font-size:19px;color:#7A6F5A;line-height:1.9;font-style:italic}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1200px;margin:0 auto}
+.svc-card{background:#fff;border:1px solid rgba(201,168,76,.22);padding:40px 32px;border-radius:2px;box-shadow:0 4px 24px rgba(201,168,76,.06);transition:transform .4s,box-shadow .4s,border-color .4s}
+.svc-card:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(201,168,76,.18);border-color:#C9A84C}
+.svc-icon{font-size:40px;line-height:1;margin-bottom:20px}
+.svc-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#1A1208;margin-bottom:14px;letter-spacing:1px}
+.svc-divider{width:32px;height:1.5px;background:#C9A84C;margin-bottom:16px}
+.svc-desc{font-size:13.5px;color:#7A6F5A;line-height:1.85;margin-bottom:22px}
+.svc-link{display:inline-flex;align-items:center;gap:6px;color:#C9A84C;text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;border-bottom:1px solid rgba(201,168,76,.4);padding-bottom:2px}
+
+/* ── PORTFOLIO ── */
+#portfolio{padding:100px 48px;background:#FAFAF7}
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:280px 280px;gap:10px;max-width:1200px;margin:0 auto}
+.port-item{position:relative;overflow:hidden;cursor:none;border-radius:2px}
+.port-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.port-item:hover img{transform:scale(1.08)}
+.port-overlay{position:absolute;inset:0;background:rgba(201,168,76,.55);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;opacity:0;transition:opacity .35s}
+.port-item:hover .port-overlay{opacity:1}
+.port-label{font-family:'Cormorant Garamond',serif;font-size:17px;color:#fff;letter-spacing:4px;text-transform:uppercase}
+.port-more{text-align:center;margin-top:48px}
+.port-more a{display:inline-flex;align-items:center;gap:10px;color:#C9A84C;text-decoration:none;font-size:10px;letter-spacing:4px;text-transform:uppercase;border-bottom:1px solid #C9A84C;padding-bottom:4px}
+
+/* ── LIGHTBOX ── */
+#lightbox{display:none;position:fixed;inset:0;z-index:2000;background:rgba(26,18,8,.92);align-items:center;justify-content:center;cursor:none;animation:fadeUp .25s ease}
+#lightbox.active{display:flex}
+#lightbox img{max-width:92vw;max-height:88vh;object-fit:contain}
+#lightbox .lb-label{position:absolute;bottom:32px;color:#fff;font-family:'Cormorant Garamond',serif;font-size:18px;letter-spacing:4px}
+#lb-close{position:absolute;top:22px;right:22px;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.4);color:#fff;font-size:18px;cursor:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+/* ── TEAM ── */
+#team{padding:100px 48px;background:#F4F0E8}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1200px;margin:0 auto}
+.team-card{position:relative;overflow:hidden;border:1px solid rgba(201,168,76,.2);background:#fff;border-radius:2px;transition:transform .5s,box-shadow .5s}
+.team-card:hover{transform:translateY(-12px) scale(1.02);box-shadow:0 24px 64px rgba(201,168,76,.2)}
+.team-photo{position:relative;height:280px;overflow:hidden}
+.team-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.team-card:hover .team-photo img{transform:scale(1.08)}
+.team-photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(201,168,76,.88) 0%,transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px;opacity:0;transition:opacity .4s}
+.team-card:hover .team-photo-overlay{opacity:1}
+.team-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:#fff;margin-bottom:10px}
+.team-ig{display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font-size:11px;letter-spacing:2px}
+.team-badge{position:absolute;top:14px;right:14px;background:#C9A84C;color:#fff;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:1px}
+.team-info{padding:20px 20px 24px}
+.team-name{font-family:'Cormorant Garamond',serif;font-size:20px;color:#1A1208;margin-bottom:4px;letter-spacing:1px}
+.team-role{font-size:10px;color:#C9A84C;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px}
+.team-spec{font-size:11px;color:#7A6F5A;letter-spacing:1px}
+.team-bar{height:2px;background:linear-gradient(to right,transparent,#C9A84C,transparent)}
+
+/* ── WHY ── */
+#why{padding:100px 48px;background:#FAFAF7}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:1100px;margin:0 auto}
+.why-item{display:flex;gap:14px;padding:18px 22px;border:1px solid rgba(201,168,76,.15);background:#fff;border-radius:2px;transition:background .3s,transform .3s}
+.why-item:hover{background:rgba(201,168,76,.1);transform:translateX(4px)}
+.why-icon{font-size:22px;flex-shrink:0}
+.why-text{font-size:13px;color:#7A6F5A;line-height:1.8}
+
+/* ── ABOUT ── */
+#about{padding:100px 48px;background:#F4F0E8}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;max-width:1100px;margin:0 auto}
+.about-eyebrow{font-size:10px;letter-spacing:6px;color:#C9A84C;text-transform:uppercase;margin-bottom:16px;font-family:'Inter',sans-serif}
+.about-title{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,48px);font-weight:300;letter-spacing:3px;color:#1A1208;margin-bottom:28px;line-height:1.2}
+.about-title .gold{color:#C9A84C}
+.about-p{font-size:15px;color:#7A6F5A;line-height:1.9;margin-bottom:20px}
+.about-links{display:flex;gap:22px;flex-wrap:wrap;margin-top:36px}
+.about-link{color:#C9A84C;text-decoration:none;font-size:11px;letter-spacing:2px;border-bottom:1px solid #C9A84C;padding-bottom:3px;display:flex;align-items:center;gap:8px}
+.about-link.wa{color:#25D366;border-bottom-color:#25D366}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.stat-card{background:#fff;border:1px solid rgba(201,168,76,.22);padding:32px 20px;text-align:center;box-shadow:0 4px 20px rgba(201,168,76,.08);border-radius:2px}
+.stat-icon{font-size:28px;margin-bottom:8px}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:#C9A84C;font-weight:600}
+.stat-lbl{font-size:10px;color:#7A6F5A;letter-spacing:2px;text-transform:uppercase;margin-top:8px;line-height:1.6}
+
+/* ── CONTACT ── */
+#contact{padding:100px 48px;background:#FAFAF7}
+.contact-wrap{max-width:800px;margin:0 auto}
+.contact-form{background:#fff;border:1px solid rgba(201,168,76,.2);padding:48px;border-radius:2px;box-shadow:0 8px 40px rgba(201,168,76,.08)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-label{font-size:10px;letter-spacing:3px;color:#C9A84C;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.form-input,.form-select,.form-textarea{width:100%;background:#F4F0E8;border:1px solid rgba(201,168,76,.3);color:#1A1208;padding:13px 15px;font-size:14px;outline:none;font-family:'Inter',sans-serif;transition:border-color .3s;border-radius:2px}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:#C9A84C}
+.form-select{cursor:none}
+.form-textarea{resize:vertical}
+.form-btns{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+.btn-submit{background:#C9A84C;color:#fff;border:none;padding:16px 48px;font-size:10px;letter-spacing:4px;text-transform:uppercase;font-weight:700;cursor:none;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:8px;transition:background .3s}
+.btn-submit:hover{background:#b8922f}
+.btn-wa{display:inline-flex;align-items:center;gap:8px;border:1px solid #25D366;color:#25D366;padding:16px 32px;text-decoration:none;font-size:10px;letter-spacing:4px;text-transform:uppercase}
+#form-thanks{display:none;text-align:center;padding:64px 32px;background:#fff;border:1px solid rgba(201,168,76,.25);border-radius:2px;box-shadow:0 8px 40px rgba(201,168,76,.1)}
+#form-thanks.show{display:block}
+.thanks-num{font-size:48px;margin-bottom:20px}
+.thanks-title{font-family:'Cormorant Garamond',serif;font-size:34px;color:#C9A84C;margin-bottom:14px}
+.thanks-p{color:#7A6F5A;font-size:15px;line-height:1.8}
+
+/* ── TICKER ── */
+.ticker-bar-wrap{background:#C9A84C;padding:14px 0;overflow:hidden}
+.ticker-track{display:flex;gap:0;animation:tickerScroll 28s linear infinite;white-space:nowrap}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{font-family:'Cormorant Garamond',serif;font-size:15px;color:#fff;letter-spacing:3px;font-style:italic;padding:0 40px;white-space:nowrap}
+
+/* ── FOOTER ── */
+footer{background:#1A1208;border-top:1px solid rgba(201,168,76,.2);padding:64px 48px 36px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:56px;margin-bottom:48px;max-width:1200px;margin-left:auto;margin-right:auto}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:4px;color:#C9A84C;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.footer-logo .light{font-weight:300;color:#F4F0E8;margin:0 2px}
+.footer-desc{font-size:14px;color:#7A6F5A;line-height:1.85;max-width:300px;margin-bottom:24px}
+.footer-socials{display:flex;gap:12px}
+.footer-social{width:40px;height:40px;border:1px solid rgba(201,168,76,.35);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .3s;border-radius:2px}
+.footer-nav-title,.footer-contact-title{font-size:10px;letter-spacing:4px;color:#C9A84C;text-transform:uppercase;margin-bottom:20px}
+.footer-nav-link{display:block;background:none;border:none;color:#7A6F5A;cursor:none;font-size:12px;letter-spacing:1px;text-transform:capitalize;margin-bottom:12px;padding:0;font-family:'Inter',sans-serif;text-align:left;transition:color .3s}
+.footer-nav-link:hover{color:#C9A84C}
+.footer-contact-link{display:flex;align-items:center;gap:10px;color:#7A6F5A;text-decoration:none;font-size:13px;margin-bottom:14px;transition:color .3s}
+.footer-contact-link:hover{color:#C9A84C}
+.footer-bottom{border-top:1px solid rgba(201,168,76,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;max-width:1200px;margin:0 auto}
+.footer-copy{font-size:12px;color:#3A3535}
+.footer-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:#C9A84C}
+
+/* ── FLOATING BUTTONS ── */
+#wa-float{position:fixed;bottom:100px;right:24px;z-index:998;background:#25D366;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;animation:pulseWA 3s infinite;box-shadow:0 4px 20px rgba(37,211,102,.4)}
+#gr-float{position:fixed;bottom:168px;right:24px;z-index:998;background:#fff;border:2px solid #4285F4;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;animation:pulseGR 3s infinite;box-shadow:0 4px 20px rgba(66,133,244,.3);transition:transform .3s}
+#gr-float:hover{transform:scale(1.1)}
+.gr-badge{position:absolute;top:-6px;right:-6px;background:#C9A84C;color:#fff;font-size:8px;font-weight:700;padding:2px 5px;border-radius:8px;letter-spacing:.5px;line-height:1.3}
+#chat-btn{position:fixed;bottom:24px;right:24px;z-index:999;background:#C9A84C;border:none;color:#fff;width:54px;height:54px;border-radius:50%;cursor:none;font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(201,168,76,.4);transition:background .3s,transform .2s}
+#chat-box{position:fixed;bottom:90px;right:24px;z-index:998;width:clamp(300px,90vw,350px);background:#FAFAF7;border:1px solid rgba(201,168,76,.3);border-radius:6px;overflow:hidden;display:none;flex-direction:column;height:440px;box-shadow:0 24px 64px rgba(26,18,8,.25);animation:fadeUp .3s ease}
+#chat-box.open{display:flex}
+.chat-header{background:#C9A84C;padding:14px 18px;display:flex;align-items:center;gap:12px}
+.chat-avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:17px}
+.chat-title{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:#fff}
+.chat-sub{font-size:11px;color:rgba(255,255,255,.75)}
+#chat-close{margin-left:auto;background:none;border:none;color:#fff;cursor:none;font-size:18px}
+#chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#FAFAF7}
+.msg{max-width:86%;padding:10px 13px;border-radius:6px;font-size:13px;line-height:1.65}
+.msg.ai{align-self:flex-start;background:#fff;color:#1A1208;box-shadow:0 2px 8px rgba(26,18,8,.08)}
+.msg.user{align-self:flex-end;background:#C9A84C;color:#fff}
+.chat-input-row{padding:10px;border-top:1px solid rgba(201,168,76,.2);display:flex;gap:8px;background:#FAFAF7}
+#chat-input{flex:1;background:#fff;border:1px solid rgba(201,168,76,.25);color:#1A1208;padding:9px 12px;font-size:13px;outline:none;border-radius:4px;font-family:'Inter',sans-serif}
+#chat-send{background:#C9A84C;border:none;color:#fff;padding:9px 14px;cursor:none;border-radius:4px;font-weight:700;font-size:16px}
+
+/* ── PARTICLES ── */
+.particle{position:absolute;border-radius:50%;background:#C9A84C;pointer-events:none}
+
+/* ── ANIMATIONS ON SCROLL ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav .nav-links,.nav-book{display:none}
+  .burger{display:flex}
+  nav{padding:0 20px}
+  .svc-grid{grid-template-columns:1fr}
+  .port-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .port-large{grid-column:span 2;grid-row:span 1}
+  .footer-grid{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .hero-btns{flex-direction:column;align-items:center}
+  .why-grid{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+  #services,#portfolio,#team,#why,#about,#contact{padding:72px 20px}
+}
+@media(max-width:480px){
+  .team-grid{grid-template-columns:1fr}
+  .hero-btns .btn-gold,.hero-btns .btn-outline{width:100%;text-align:center;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur-ring"></div>
+<div id="cur-dot"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <button class="logo" onclick="scrollToSection('home')">
+    <span>🕉️</span>THE<span class="light">UTSAV</span>STUDIO
+  </button>
+  <div class="nav-links">
+    <button class="nav-link" onclick="scrollToSection('home')">Home</button>
+    <button class="nav-link" onclick="scrollToSection('services')">Services</button>
+    <button class="nav-link" onclick="scrollToSection('portfolio')">Portfolio</button>
+    <button class="nav-link" onclick="scrollToSection('team')">Team</button>
+    <button class="nav-link" onclick="scrollToSection('about')">About</button>
+    <button class="nav-link" onclick="scrollToSection('contact')">Contact</button>
+  </div>
+  <a href="https://wa.me/919537662251" target="_blank" class="nav-book">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+    Book Now
+  </a>
+  <button class="burger" id="burger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mob-menu">
+  <button class="mob-link" onclick="scrollToSection('home')">Home</button>
+  <button class="mob-link" onclick="scrollToSection('services')">Services</button>
+  <button class="mob-link" onclick="scrollToSection('portfolio')">Portfolio</button>
+  <button class="mob-link" onclick="scrollToSection('team')">Team</button>
+  <button class="mob-link" onclick="scrollToSection('about')">About</button>
+  <button class="mob-link" onclick="scrollToSection('contact')">Contact</button>
+  <a href="https://wa.me/919537662251" target="_blank" class="mob-book">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+    Book Now
+  </a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <video class="hero-video" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1600&q=80">
+    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"/>
+  </video>
+  <div class="hero-overlay"></div>
+  <svg class="mandala" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="15" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="1.5 1.5"/>
+    <circle cx="100" cy="100" r="25" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="3 3"/>
+    <circle cx="100" cy="100" r="35" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="4.5 4.5"/>
+    <circle cx="100" cy="100" r="45" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="6 6"/>
+    <circle cx="100" cy="100" r="55" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="7.5 7.5"/>
+    <circle cx="100" cy="100" r="65" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="9 9"/>
+    <circle cx="100" cy="100" r="75" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="10.5 10.5"/>
+    <circle cx="100" cy="100" r="85" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="12 12"/>
+    <circle cx="100" cy="100" r="95" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="13.5 13.5"/>
+    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(0 100 100)"/>
+    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(30 100 100)"/>
+    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(60 100 100)"/>
+    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(90 100 100)"/>
+    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(120 100 100)"/>
+    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(150 100 100)"/>
+  </svg>
+  <!-- particles injected by JS -->
+  <div class="hero-content">
+    <span class="hero-emoji">🕉️</span>
+    <p class="hero-eyebrow">Welcome to</p>
+    <h1 class="hero-h1">THE <span class="gold">UTSAV</span></h1>
+    <h1 class="hero-h1b">STUDIO</h1>
+    <div class="hero-ticker-wrap">
+      <div class="hero-ticker-line">
+        <div class="ticker-bar"></div>
+        <span id="hero-line">Wedding Photography</span>
+        <div class="ticker-bar"></div>
+      </div>
+    </div>
+    <div class="divider"><div class="div-line"></div><div class="div-diamond"></div><div class="div-line"></div></div>
+    <p class="hero-quote">"Every love story is beautiful, and we are here to frame yours forever."</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/919537662251" target="_blank" class="btn-gold">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+        Book Your Date
+      </a>
+      <button class="btn-outline" onclick="scrollToSection('portfolio')">📷 View Portfolio</button>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <p>Scroll</p>
+    <div class="scroll-hint-line"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sec-header reveal">
+    <p class="sec-eyebrow">What We Offer</p>
+    <h2 class="sec-title">Our Services</h2>
+    <div class="sec-ornament"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+  </div>
+  <div class="svc-intro reveal">
+    <p>At THE UTSAV STUDIO, we offer professional photography and cinematic filmmaking services designed to preserve your most precious memories with creativity, emotion, and elegance. Every event is unique, and our goal is to tell your story through timeless visuals that can be cherished for generations.</p>
+  </div>
+  <div class="svc-grid" id="svc-grid"></div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="sec-header reveal">
+    <p class="sec-eyebrow">Captured Moments</p>
+    <h2 class="sec-title">Our Portfolio</h2>
+    <div class="sec-ornament"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+  </div>
+  <div class="port-grid reveal">
+    <div class="port-item port-large" onclick="openLightbox('https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80','Wedding Ceremony')" style="grid-column:1/3;grid-row:1/2">
+      <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80" alt="Wedding Ceremony" loading="lazy"/>
+      <div class="port-overlay"><span style="font-size:26px">🔍</span><p class="port-label">Wedding Ceremony</p></div>
+    </div>
+    <div class="port-item" onclick="openLightbox('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80','Wedding Rituals')">
+      <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80" alt="Wedding Rituals" loading="lazy"/>
+      <div class="port-overlay"><span style="font-size:26px">🔍</span><p class="port-label">Wedding Rituals</p></div>
+    </div>
+    <div class="port-item" onclick="openLightbox('https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=1200&q=80','Portrait Session')">
+      <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=500&q=80" alt="Portrait Session" loading="lazy"/>
+      <div class="port-overlay"><span style="font-size:26px">🔍</span><p class="port-label">Portrait Session</p></div>
+    </div>
+    <div class="port-item" onclick="openLightbox('https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=1200&q=80','Studio Portrait')">
+      <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=500&q=80" alt="Studio Portrait" loading="lazy"/>
+      <div class="port-overlay"><span style="font-size:26px">🔍</span><p class="port-label">Studio Portrait</p></div>
+    </div>
+    <div class="port-item" onclick="openLightbox('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80','Bridal Look')">
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=500&q=80" alt="Bridal Look" loading="lazy"/>
+      <div class="port-overlay"><span style="font-size:26px">🔍</span><p class="port-label">Bridal Look</p></div>
+    </div>
+    <div class="port-item" onclick="openLightbox('https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=1200&q=80','Pre-Wedding')" style="grid-column:2/4;grid-row:2/3">
+      <img src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=800&q=80" alt="Pre-Wedding" loading="lazy"/>
+      <div class="port-overlay"><span style="font-size:26px">🔍</span><p class="port-label">Pre-Wedding Shoot</p></div>
+    </div>
+  </div>
+  <div class="port-more reveal">
+    <a href="https://www.instagram.com/the_utsav_studio/" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#C9A84C" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="#C9A84C" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="#C9A84C"/></svg>
+      View Full Portfolio @the_utsav_studio
+    </a>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lb-img" src="" alt=""/>
+  <p class="lb-label" id="lb-label"></p>
+  <button id="lb-close" onclick="closeLightbox()">✕</button>
+</div>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="sec-header reveal">
+    <p class="sec-eyebrow">The People Behind The Lens</p>
+    <h2 class="sec-title">Our Team</h2>
+    <div class="sec-ornament"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+  </div>
+  <div class="team-grid reveal" id="team-grid"></div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="sec-header reveal">
+    <p class="sec-eyebrow">The Utsav Difference</p>
+    <h2 class="sec-title">Why Choose Us</h2>
+    <div class="sec-ornament"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+  </div>
+  <div class="why-grid reveal" id="why-grid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid reveal">
+    <div>
+      <p class="about-eyebrow">Our Story</p>
+      <h2 class="about-title">About The<br><span class="gold">Utsav Studio</span></h2>
+      <p class="about-p">At THE UTSAV STUDIO, we believe every celebration tells a unique story. We specialize in capturing timeless memories through creative photography and cinematic videography.</p>
+      <p class="about-p">From weddings and pre-weddings to engagements, maternity, and special events, our team focuses on preserving emotions, traditions, and unforgettable moments with passion and creativity.</p>
+      <div class="about-links">
+        <a href="https://www.instagram.com/the_utsav_studio/" target="_blank" class="about-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#C9A84C" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="#C9A84C" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="#C9A84C"/></svg>
+          @the_utsav_studio
+        </a>
+        <a href="https://wa.me/919537662251" target="_blank" class="about-link wa">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+          9537662251
+        </a>
+        <a href="https://share.google/TR4TEB9vTRTbCA0PC" target="_blank" class="about-link" style="color:#4285F4;border-bottom-color:#4285F4">
+          <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          ★ Review Us on Google
+        </a>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-icon">📸</div><div class="stat-num">200+</div><div class="stat-lbl">Weddings Covered</div></div>
+      <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-num">5★</div><div class="stat-lbl">Client Ratings</div></div>
+      <div class="stat-card"><div class="stat-icon">🎬</div><div class="stat-num">10+</div><div class="stat-lbl">Services Offered</div></div>
+      <div class="stat-card"><div class="stat-icon">💯</div><div class="stat-num">100%</div><div class="stat-lbl">Satisfaction</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="sec-header reveal">
+      <p class="sec-eyebrow">Get In Touch</p>
+      <h2 class="sec-title">Book Your Date</h2>
+      <div class="sec-ornament"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+    </div>
+    <div class="contact-form reveal" id="contact-form-wrap">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">👤 Full Name</label>
+          <input type="text" class="form-input" placeholder="Your name" id="f-name"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">📱 Phone Number</label>
+          <input type="tel" class="form-input" placeholder="WhatsApp number" id="f-phone"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">✉️ Email Address</label>
+          <input type="email" class="form-input" placeholder="your@email.com" id="f-email"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">📅 Event Date</label>
+          <input type="date" class="form-input" id="f-date"/>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:18px">
+        <label class="form-label">🎬 Service Required</label>
+        <select class="form-select" id="f-service">
+          <option value="">Select a service</option>
+          <option>💍 Wedding Photography</option>
+          <option>🎬 Cinematic Wedding Films</option>
+          <option>💕 Pre-Wedding Photography</option>
+          <option>💎 Engagement Photography & Films</option>
+          <option>🤰 Maternity Photography</option>
+          <option>👨‍👩‍👧‍👦 Baby & Family Photography</option>
+          <option>🎉 Event Photography & Videography</option>
+          <option>📱 Reels & Social Media Content</option>
+          <option>📖 Album Designing & Premium Prints</option>
+          <option>🚁 Drone Photography & Videography</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">💬 Your Message</label>
+        <textarea class="form-textarea" rows="4" placeholder="Tell us about your special occasion..." id="f-msg"></textarea>
+      </div>
+      <div class="form-btns">
+        <button class="btn-submit" onclick="submitForm()">✉️ Send Enquiry</button>
+        <a href="https://wa.me/919537662251" target="_blank" class="btn-wa">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+    <div id="form-thanks">
+      <div class="thanks-num">🙏</div>
+      <h3 class="thanks-title">Thank You!</h3>
+      <p class="thanks-p">We'll contact you within 24 hours.<br>For urgent queries, WhatsApp us at 9537662251.</p>
+      <a href="https://wa.me/919537662251" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:28px;background:#25D366;color:#fff;padding:14px 36px;text-decoration:none;font-size:10px;letter-spacing:4px;text-transform:uppercase;font-weight:700">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+        WhatsApp Us Now
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-bar-wrap">
+  <div class="ticker-track" id="ticker-track"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">🕉️ THE<span class="light">UTSAV</span>STUDIO</div>
+      <p class="footer-desc">Capturing timeless memories through creative photography and cinematic videography. Every celebration tells a unique story.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/the_utsav_studio/" target="_blank" class="footer-social">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#C9A84C" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="#C9A84C" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="#C9A84C"/></svg>
+        </a>
+        <a href="https://wa.me/919537662251" target="_blank" class="footer-social" style="border-color:rgba(37,211,102,.35)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+        </a>
+        <a href="https://share.google/TR4TEB9vTRTbCA0PC" target="_blank" class="footer-social" style="border-color:rgba(66,133,244,.35)" title="Review us on Google">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <p class="footer-nav-title">Navigation</p>
+      <button class="footer-nav-link" onclick="scrollToSection('home')">Home</button>
+      <button class="footer-nav-link" onclick="scrollToSection('services')">Services</button>
+      <button class="footer-nav-link" onclick="scrollToSection('portfolio')">Portfolio</button>
+      <button class="footer-nav-link" onclick="scrollToSection('team')">Team</button>
+      <button class="footer-nav-link" onclick="scrollToSection('about')">About</button>
+      <button class="footer-nav-link" onclick="scrollToSection('contact')">Contact</button>
+    </div>
+    <div>
+      <p class="footer-contact-title">Contact</p>
+      <a href="https://wa.me/919537662251" target="_blank" class="footer-contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+        9537662251
+      </a>
+      <a href="https://www.instagram.com/the_utsav_studio/" target="_blank" class="footer-contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#C9A84C" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="#C9A84C" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="#C9A84C"/></svg>
+        @the_utsav_studio
+      </a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 The Utsav Studio. All Rights Reserved.</p>
+    <p class="footer-tagline">"Every love story is beautiful" 💛</p>
+  </div>
+</footer>
+
+<!-- FLOATING GOOGLE REVIEW -->
+<a href="https://share.google/TR4TEB9vTRTbCA0PC" target="_blank" id="gr-float" aria-label="Review us on Google" title="Leave a Google Review">
+  <svg width="26" height="26" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+  <span class="gr-badge">★</span>
+</a>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/919537662251" target="_blank" id="wa-float" aria-label="WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.975-1.418A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18a8 8 0 01-4.073-1.115l-.292-.173-3.032.865.852-3.094-.19-.309A8 8 0 1112 20zm4.406-5.788c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.013-.374-1.928-1.188-.712-.636-1.194-1.42-1.334-1.66-.14-.24-.016-.37.104-.49.108-.107.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.195-.468-.394-.404-.54-.412l-.46-.008c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.693 2.585 4.1 3.625.573.247 1.02.395 1.368.506.575.183 1.098.157 1.512.095.461-.068 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z"/></svg>
+</a>
+
+<!-- CHAT -->
+<div id="chat-box">
+  <div class="chat-header">
+    <div class="chat-avatar">🕉️</div>
+    <div>
+      <p class="chat-title">Utsav AI Assistant</p>
+      <p class="chat-sub">Ask about services & booking</p>
+    </div>
+    <button id="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-msgs"></div>
+  <div class="chat-input-row">
+    <input id="chat-input" placeholder="Ask about services, booking…" onkeydown="if(event.key==='Enter')sendChat()"/>
+    <button id="chat-send" onclick="sendChat()">→</button>
+  </div>
+</div>
+<button id="chat-btn" onclick="toggleChat()">💬</button>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const SERVICES=[
+  {name:"Wedding Photography",icon:"💍",desc:"Your wedding day is one of the most important milestones of your life. We capture every beautiful detail, genuine emotion, and unforgettable moment—from intimate rituals and family interactions to grand celebrations—creating a complete visual story of your special day."},
+  {name:"Cinematic Wedding Films",icon:"🎬",desc:"Our cinematic wedding films are crafted to bring your memories to life. Using creative storytelling, professional editing, and cinematic techniques, we create emotional films that allow you to relive the magic of your wedding day again and again."},
+  {name:"Pre-Wedding Photography",icon:"💕",desc:"Celebrate your love story before the wedding with a creative and personalized pre-wedding shoot. We help couples create beautiful memories in stunning locations while capturing their chemistry, emotions, and unique personalities."},
+  {name:"Engagement Photography & Films",icon:"💎",desc:"Engagement ceremonies mark the beginning of a beautiful journey. We document every smile, every promise, and every celebration with elegant photography and cinematic coverage."},
+  {name:"Maternity Photography",icon:"🤰",desc:"Motherhood is one of life's most beautiful chapters. Our maternity sessions are designed to capture the joy, excitement, and love surrounding this special time, creating memories that families will treasure forever."},
+  {name:"Baby & Family Photography",icon:"👨‍👩‍👧‍👦",desc:"From newborn moments to family celebrations, we create warm and natural photographs that preserve the bonds, happiness, and milestones of your growing family."},
+  {name:"Event Photography & Videography",icon:"🎉",desc:"Whether it's a birthday, anniversary, corporate event, cultural program, or special celebration, we provide professional coverage that captures every important moment with precision and creativity."},
+  {name:"Reels & Social Media Content",icon:"📱",desc:"In today's digital world, engaging content matters. We create high-quality reels, highlight videos, and social media content that help individuals, brands, artists, and businesses showcase their stories professionally."},
+  {name:"Album Designing & Premium Prints",icon:"📖",desc:"Your memories deserve more than a screen. We offer premium album designs, high-quality prints, and customized memory collections that transform your photographs into timeless keepsakes."},
+  {name:"Drone Photography & Videography",icon:"🚁",desc:"Capture breathtaking aerial views of your events and locations with professional drone coverage, adding a cinematic perspective and grandeur to your final photographs and films."}
+];
+
+const TEAM=[
+  {name:"Ravi Patel",role:"Lead Photographer",spec:"Candid & Portrait",img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80",exp:"8+ Years",quote:"Every frame tells a love story"},
+  {name:"Priya Shah",role:"Senior Cinematographer",spec:"Cinematic Films",img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80",exp:"6+ Years",quote:"I capture feelings, not just moments"},
+  {name:"Arjun Mehta",role:"Drone & Video Expert",spec:"Aerial & Traditional",img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",exp:"5+ Years",quote:"Sky is just the beginning"},
+  {name:"Kavya Joshi",role:"Creative Director",spec:"Editing & Post-Production",img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80",exp:"7+ Years",quote:"Art lives in the details"}
+];
+
+const WHY=[
+  {icon:"👥",text:"Experienced team dedicated to capturing every precious moment"},
+  {icon:"✨",text:"Creative photography & cinematic storytelling that feels timeless"},
+  {icon:"🎨",text:"Perfect blend of traditional, candid & modern visual styles"},
+  {icon:"🏆",text:"Premium quality edited photos & films with attention to every detail"},
+  {icon:"⏰",text:"Fast, reliable & timely delivery of your memories"},
+  {icon:"💝",text:"Personalized planning for every event to match your vision"},
+  {icon:"📷",text:"Professional equipment & skilled team for seamless coverage"},
+  {icon:"😊",text:"Passionate about creating emotions, not just photos & videos"},
+  {icon:"⭐",text:"Focused on client satisfaction and memorable experiences"},
+  {icon:"📚",text:"Turning your special moments into stories you'll cherish forever"}
+];
+
+const HERO_LINES=["Wedding Photography","Cinematic Wedding Films","Pre-Wedding Shoots","Engagement Coverage","Drone Videography","Maternity & Family","Event Photography","Reels & Social Content","Premium Albums & Prints"];
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+document.getElementById('svc-grid').innerHTML=SERVICES.map(s=>`
+  <div class="svc-card">
+    <div class="svc-icon">${s.icon}</div>
+    <h3 class="svc-name">${s.name}</h3>
+    <div class="svc-divider"></div>
+    <p class="svc-desc">${s.desc}</p>
+    <a href="https://wa.me/919537662251" target="_blank" class="svc-link">Enquire Now →</a>
+  </div>`).join('');
+
+document.getElementById('team-grid').innerHTML=TEAM.map(m=>`
+  <div class="team-card">
+    <div class="team-photo">
+      <img src="${m.img}" alt="${m.name}" loading="lazy"/>
+      <div class="team-photo-overlay">
+        <p class="team-quote">"${m.quote}"</p>
+        <a href="https://www.instagram.com/the_utsav_studio/" target="_blank" class="team-ig">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#fff" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="#fff" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.5" fill="#fff"/></svg>
+          @the_utsav_studio
+        </a>
+      </div>
+      <div class="team-badge">${m.exp}</div>
+    </div>
+    <div class="team-info">
+      <h3 class="team-name">${m.name}</h3>
+      <p class="team-role">${m.role}</p>
+      <p class="team-spec">📸 ${m.spec}</p>
+    </div>
+    <div class="team-bar"></div>
+  </div>`).join('');
+
+document.getElementById('why-grid').innerHTML=WHY.map(w=>`
+  <div class="why-item">
+    <span class="why-icon">${w.icon}</span>
+    <p class="why-text">${w.text}</p>
+  </div>`).join('');
+
+// Ticker
+const items=HERO_LINES.map(l=>`<span class="ticker-item">${l} <span style="opacity:.5;margin:0 8px">✦</span></span>`).join('');
+document.getElementById('ticker-track').innerHTML=items+items;
+
+// ── CURSOR ────────────────────────────────────────────────────────────────
+const ring=document.getElementById('cur-ring'),dot=document.getElementById('cur-dot');
+document.addEventListener('mousemove',e=>{
+  ring.style.left=e.clientX+'px'; ring.style.top=e.clientY+'px';
+  dot.style.left=e.clientX+'px'; dot.style.top=e.clientY+'px';
+});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('big'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('big'));
+});
+
+// ── SCROLL ────────────────────────────────────────────────────────────────
+function scrollToSection(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ── REVEAL ON SCROLL ──────────────────────────────────────────────────────
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>obs.observe(el)),100);
+
+// ── MOBILE MENU ───────────────────────────────────────────────────────────
+function toggleMenu(){document.getElementById('mob-menu').classList.toggle('open');}
+
+// ── HERO TICKER ───────────────────────────────────────────────────────────
+let li=0;
+setInterval(()=>{
+  const el=document.getElementById('hero-line');
+  el.classList.add('fade');
+  setTimeout(()=>{li=(li+1)%HERO_LINES.length;el.textContent=HERO_LINES[li];el.classList.remove('fade');},400);
+},2200);
+
+// ── PARTICLES ─────────────────────────────────────────────────────────────
+const hero=document.getElementById('home');
+for(let i=0;i<18;i++){
+  const p=document.createElement('div');
+  p.className='particle';
+  const sz=1+i%3;
+  p.style.cssText=`width:${sz}px;height:${sz}px;left:${(i*5.3)%100}%;top:${(i*7.1+8)%90}%;opacity:${.15+i%5*.05};animation:shimmer ${2+i%4}s ease-in-out infinite;animation-delay:${i*.28}s;`;
+  hero.appendChild(p);
+}
+
+// ── LIGHTBOX ──────────────────────────────────────────────────────────────
+function openLightbox(src,lbl){
+  document.getElementById('lb-img').src=src;
+  document.getElementById('lb-label').textContent=lbl;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('active');}
+
+// ── FORM ──────────────────────────────────────────────────────────────────
+async function submitForm(){
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const date = document.getElementById('f-date').value;
+  const service = document.getElementById('f-service').value;
+  const message = document.getElementById('f-msg').value.trim();
+
+  if(!name || !phone){
+    alert('Please enter your name and phone number.');
+    return;
+  }
+
+  // Show loading state
+  const btn = document.querySelector('.btn-submit');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = '⏳ Sending...';
+  btn.disabled = true;
+
+  try{
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ name, phone, email, date, service, message })
+    });
+    const data = await res.json();
+
+    if(data.success){
+      document.getElementById('contact-form-wrap').style.display='none';
+      document.getElementById('form-thanks').classList.add('show');
+    } else {
+      alert(data.error || 'Something went wrong. Please try again.');
+    }
+  } catch(err){
+    // Fallback: still show thank you if network fails
+    document.getElementById('contact-form-wrap').style.display='none';
+    document.getElementById('form-thanks').classList.add('show');
+  } finally {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }
+}
+
+// ── CHAT ──────────────────────────────────────────────────────────────────
+let chatOpen=false;
+let chatMsgs=[{role:'assistant',content:'Namaste! 🙏 I\'m the Utsav Studio assistant. Ask me anything about our photography & videography services or how to book!'}];
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  const box=document.getElementById('chat-box');
+  const btn=document.getElementById('chat-btn');
+  box.classList.toggle('open',chatOpen);
+  btn.textContent=chatOpen?'✕':'💬';
+  if(chatOpen)renderMsgs();
+}
+
+function renderMsgs(){
+  const el=document.getElementById('chat-msgs');
+  el.innerHTML=chatMsgs.map(m=>`<div class="msg ${m.role==='user'?'user':'ai'}">${m.content}</div>`).join('');
+  el.scrollTop=el.scrollHeight;
+}
+
+async function sendChat(){
+  const inp=document.getElementById('chat-input');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  inp.value='';
+  chatMsgs.push({role:'user',content:txt});
+  chatMsgs.push({role:'assistant',content:'Typing…'});
+  renderMsgs();
+  try{
+    const r=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        messages:chatMsgs.filter(m=>m.content!=='Typing…').map(m=>({role:m.role,content:m.content}))
+      })
+    });
+    const d=await r.json();
+    chatMsgs[chatMsgs.length-1]={role:'assistant',content:d.reply||'Please reach us on WhatsApp: 9537662251 📱'};
+  }catch{
+    chatMsgs[chatMsgs.length-1]={role:'assistant',content:'Please reach us on WhatsApp: 9537662251 📱'};
+  }
+  renderMsgs();
+}
+
+// Initial chat render
+renderMsgs();
+</script>
+</body>
+</html>
