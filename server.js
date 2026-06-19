@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files (the HTML website)
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 app.use(express.static(path.join(__dirname)));
 
 // ── IN-MEMORY STORAGE (Vercel ke liye) ────────────────────────
