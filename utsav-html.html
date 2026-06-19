@@ -31,7 +31,8 @@ body{font-family:'Inter',sans-serif;background:#FAFAF7;color:#1A1208;overflow-x:
 /* ── NAVBAR ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:all .35s}
 nav.scrolled{background:rgba(250,250,247,.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,.25)}
-.logo{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;letter-spacing:3px;color:#C9A84C;display:flex;align-items:center;gap:6px;cursor:none;background:none;border:none;padding:0}
+.logo{display:flex;flex-direction:row;align-items:center;gap:10px;cursor:none;background:none;border:none;padding:0;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;letter-spacing:3px;color:#C9A84C;white-space:nowrap}
+.logo img{height:38px;width:auto;max-width:50px;object-fit:contain;flex-shrink:0}
 .logo span.light{font-weight:300;color:#1A1208;margin:0 3px}
 .nav-links{display:flex;gap:28px;align-items:center}
 .nav-link{background:none;border:none;color:#1A1208;cursor:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:color .3s;font-family:'Inter',sans-serif;padding:4px 0}
@@ -51,7 +52,7 @@ nav.scrolled{background:rgba(250,250,247,.96);backdrop-filter:blur(16px);border-
 #home{height:100vh;min-height:600px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;text-align:center;padding:80px 24px 40px}
 .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(250,250,247,.9) 0%,rgba(250,250,247,.7) 50%,rgba(250,250,247,.92) 100%)}
-.mandala{position:absolute;width:min(700px,95vw);height:min(700px,95vw);opacity:.07;animation:rotate 80s linear infinite;top:50%;left:50%;transform-origin:center;pointer-events:none}
+.mandala{position:absolute;width:min(700px,95vw);height:min(700px,95vw);opacity:.07;animation:rotate 80s linear infinite;top:50%;left:50%;transform-origin:center;pointer-events:none;object-fit:contain}
 .hero-content{position:relative;z-index:1;animation:fadeUp .9s ease forwards}
 .hero-emoji{font-size:32px;margin-bottom:22px;display:block;animation:float 4s ease-in-out infinite}
 .hero-eyebrow{font-size:10px;letter-spacing:8px;color:#C9A84C;text-transform:uppercase;margin-bottom:18px;font-family:'Inter',sans-serif}
@@ -90,6 +91,7 @@ nav.scrolled{background:rgba(250,250,247,.96);backdrop-filter:blur(16px);border-
 .svc-card{background:#fff;border:1px solid rgba(201,168,76,.22);padding:40px 32px;border-radius:2px;box-shadow:0 4px 24px rgba(201,168,76,.06);transition:transform .4s,box-shadow .4s,border-color .4s}
 .svc-card:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(201,168,76,.18);border-color:#C9A84C}
 .svc-icon{font-size:40px;line-height:1;margin-bottom:20px}
+.svc-icon img{width:48px;height:48px;object-fit:contain}
 .svc-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:#1A1208;margin-bottom:14px;letter-spacing:1px}
 .svc-divider{width:32px;height:1.5px;background:#C9A84C;margin-bottom:16px}
 .svc-desc{font-size:13.5px;color:#7A6F5A;line-height:1.85;margin-bottom:22px}
@@ -113,6 +115,23 @@ nav.scrolled{background:rgba(250,250,247,.96);backdrop-filter:blur(16px);border-
 #lightbox img{max-width:92vw;max-height:88vh;object-fit:contain}
 #lightbox .lb-label{position:absolute;bottom:32px;color:#fff;font-family:'Cormorant Garamond',serif;font-size:18px;letter-spacing:4px}
 #lb-close{position:absolute;top:22px;right:22px;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.4);color:#fff;font-size:18px;cursor:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
+/* ── FILMS ── */
+#films{padding:100px 48px;background:#F4F0E8}
+.films-container{max-width:960px;margin:0 auto}
+.films-card{background:#fff;border:1px solid rgba(201,168,76,.22);border-radius:12px;overflow:hidden;box-shadow:0 8px 40px rgba(201,168,76,.08);position:relative}
+.films-card-header{background:linear-gradient(135deg,#C9A84C,#b8922f);padding:24px 32px;display:flex;align-items:center;gap:14px}
+.films-play-icon{width:44px;height:44px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.films-card-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#fff;letter-spacing:2px}
+.films-card-sub{font-size:11px;color:rgba(255,255,255,.8);letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.films-embed{position:relative;width:100%;padding-top:56.25%}
+.films-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.films-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.films-cta a{display:inline-flex;align-items:center;gap:10px;color:#fff;padding:14px 36px;text-decoration:none;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-weight:700;border-radius:6px;transition:background .3s,transform .3s}
+.films-cta .btn-yt{background:#FF0000}
+.films-cta .btn-yt:hover{background:#cc0000;transform:translateY(-2px)}
+.films-cta .btn-sub{background:#fff;color:#1A1208;border:1px solid rgba(201,168,76,.3)}
+.films-cta .btn-sub:hover{border-color:#C9A84C;transform:translateY(-2px)}
 
 /* ── TEAM ── */
 #team{padding:100px 48px;background:#F4F0E8}
@@ -249,9 +268,12 @@ footer{background:#1A1208;border-top:1px solid rgba(201,168,76,.2);padding:64px 
   .why-grid{grid-template-columns:1fr}
   .stat-grid{grid-template-columns:1fr 1fr}
   .team-grid{grid-template-columns:1fr 1fr}
-  #services,#portfolio,#team,#why,#about,#contact{padding:72px 20px}
+  #services,#portfolio,#films,#team,#why,#about,#contact{padding:72px 20px}
 }
 @media(max-width:480px){
+  .films-card-header{padding:16px 20px}
+  .films-card-title{font-size:18px}
+  .films-cta a{padding:12px 24px;font-size:9px}
   .team-grid{grid-template-columns:1fr}
   .hero-btns .btn-gold,.hero-btns .btn-outline{width:100%;text-align:center;justify-content:center}
 }
@@ -266,12 +288,14 @@ footer{background:#1A1208;border-top:1px solid rgba(201,168,76,.2);padding:64px 
 <!-- NAVBAR -->
 <nav id="navbar">
   <button class="logo" onclick="scrollToSection('home')">
-    <span>🕉️</span>THE<span class="light">UTSAV</span>STUDIO
+    <img src="images.png/2.png" alt="The Utsav Studio"/>
+    THE<span class="light">UTSAV</span>STUDIO
   </button>
   <div class="nav-links">
     <button class="nav-link" onclick="scrollToSection('home')">Home</button>
     <button class="nav-link" onclick="scrollToSection('services')">Services</button>
     <button class="nav-link" onclick="scrollToSection('portfolio')">Portfolio</button>
+    <button class="nav-link" onclick="scrollToSection('films')">Films</button>
     <button class="nav-link" onclick="scrollToSection('team')">Team</button>
     <button class="nav-link" onclick="scrollToSection('about')">About</button>
     <button class="nav-link" onclick="scrollToSection('contact')">Contact</button>
@@ -290,6 +314,7 @@ footer{background:#1A1208;border-top:1px solid rgba(201,168,76,.2);padding:64px 
   <button class="mob-link" onclick="scrollToSection('home')">Home</button>
   <button class="mob-link" onclick="scrollToSection('services')">Services</button>
   <button class="mob-link" onclick="scrollToSection('portfolio')">Portfolio</button>
+  <button class="mob-link" onclick="scrollToSection('films')">Films</button>
   <button class="mob-link" onclick="scrollToSection('team')">Team</button>
   <button class="mob-link" onclick="scrollToSection('about')">About</button>
   <button class="mob-link" onclick="scrollToSection('contact')">Contact</button>
@@ -305,26 +330,10 @@ footer{background:#1A1208;border-top:1px solid rgba(201,168,76,.2);padding:64px 
     <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"/>
   </video>
   <div class="hero-overlay"></div>
-  <svg class="mandala" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="100" cy="100" r="15" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="1.5 1.5"/>
-    <circle cx="100" cy="100" r="25" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="3 3"/>
-    <circle cx="100" cy="100" r="35" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="4.5 4.5"/>
-    <circle cx="100" cy="100" r="45" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="6 6"/>
-    <circle cx="100" cy="100" r="55" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="7.5 7.5"/>
-    <circle cx="100" cy="100" r="65" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="9 9"/>
-    <circle cx="100" cy="100" r="75" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="10.5 10.5"/>
-    <circle cx="100" cy="100" r="85" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="12 12"/>
-    <circle cx="100" cy="100" r="95" fill="none" stroke="#C9A84C" stroke-width=".5" stroke-dasharray="13.5 13.5"/>
-    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(0 100 100)"/>
-    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(30 100 100)"/>
-    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(60 100 100)"/>
-    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(90 100 100)"/>
-    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(120 100 100)"/>
-    <line x1="100" y1="5" x2="100" y2="195" stroke="#C9A84C" stroke-width=".3" transform="rotate(150 100 100)"/>
-  </svg>
+  <img class="mandala" src="images.png/1.png" alt=""/>
   <!-- particles injected by JS -->
   <div class="hero-content">
-    <span class="hero-emoji">🕉️</span>
+    <img class="hero-emoji" src="images.png/1.png" alt="The Utsav Studio" style="width:80px;height:80px;object-fit:contain;display:block;margin:0 auto 22px;"/>
     <p class="hero-eyebrow">Welcome to</p>
     <h1 class="hero-h1">THE <span class="gold">UTSAV</span></h1>
     <h1 class="hero-h1b">STUDIO</h1>
@@ -411,6 +420,41 @@ footer{background:#1A1208;border-top:1px solid rgba(201,168,76,.2);padding:64px 
   <p class="lb-label" id="lb-label"></p>
   <button id="lb-close" onclick="closeLightbox()">✕</button>
 </div>
+
+<!-- FILMS -->
+<section id="films">
+  <div class="sec-header reveal">
+    <p class="sec-eyebrow">Cinematic Memories</p>
+    <h2 class="sec-title">Our Wedding Films</h2>
+    <div class="sec-ornament"><div class="orn-line"></div><div class="orn-diamond"></div><div class="orn-line"></div></div>
+  </div>
+  <div class="films-container reveal">
+    <div class="films-card">
+      <div class="films-card-header">
+        <div class="films-play-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div>
+          <div class="films-card-title">The Utsav Studio</div>
+          <div class="films-card-sub">YouTube Channel</div>
+        </div>
+      </div>
+      <div class="films-embed">
+        <iframe src="https://www.youtube.com/embed/2PUFCjWZbg8" title="The Utsav Studio - Wedding Films" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="films-cta">
+      <a href="https://youtube.com/@theutsavstudio?si=NkjSv1ScH-eJwqwE" target="_blank" class="btn-yt">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        Visit YouTube Channel
+      </a>
+      <a href="https://www.youtube.com/@theutsavstudio?sub_confirmation=1" target="_blank" class="btn-sub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        Subscribe
+      </a>
+    </div>
+  </div>
+</section>
 
 <!-- TEAM -->
 <section id="team">
@@ -559,6 +603,7 @@ footer{background:#1A1208;border-top:1px solid rgba(201,168,76,.2);padding:64px 
       <button class="footer-nav-link" onclick="scrollToSection('home')">Home</button>
       <button class="footer-nav-link" onclick="scrollToSection('services')">Services</button>
       <button class="footer-nav-link" onclick="scrollToSection('portfolio')">Portfolio</button>
+      <button class="footer-nav-link" onclick="scrollToSection('films')">Films</button>
       <button class="footer-nav-link" onclick="scrollToSection('team')">Team</button>
       <button class="footer-nav-link" onclick="scrollToSection('about')">About</button>
       <button class="footer-nav-link" onclick="scrollToSection('contact')">Contact</button>
@@ -613,14 +658,14 @@ footer{background:#1A1208;border-top:1px solid rgba(201,168,76,.2);padding:64px 
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────
 const SERVICES=[
-  {name:"Wedding Photography",icon:"💍",desc:"Your wedding day is one of the most important milestones of your life. We capture every beautiful detail, genuine emotion, and unforgettable moment—from intimate rituals and family interactions to grand celebrations—creating a complete visual story of your special day."},
-  {name:"Cinematic Wedding Films",icon:"🎬",desc:"Our cinematic wedding films are crafted to bring your memories to life. Using creative storytelling, professional editing, and cinematic techniques, we create emotional films that allow you to relive the magic of your wedding day again and again."},
-  {name:"Pre-Wedding Photography",icon:"💕",desc:"Celebrate your love story before the wedding with a creative and personalized pre-wedding shoot. We help couples create beautiful memories in stunning locations while capturing their chemistry, emotions, and unique personalities."},
-  {name:"Engagement Photography & Films",icon:"💎",desc:"Engagement ceremonies mark the beginning of a beautiful journey. We document every smile, every promise, and every celebration with elegant photography and cinematic coverage."},
-  {name:"Maternity Photography",icon:"🤰",desc:"Motherhood is one of life's most beautiful chapters. Our maternity sessions are designed to capture the joy, excitement, and love surrounding this special time, creating memories that families will treasure forever."},
-  {name:"Baby & Family Photography",icon:"👨‍👩‍👧‍👦",desc:"From newborn moments to family celebrations, we create warm and natural photographs that preserve the bonds, happiness, and milestones of your growing family."},
-  {name:"Event Photography & Videography",icon:"🎉",desc:"Whether it's a birthday, anniversary, corporate event, cultural program, or special celebration, we provide professional coverage that captures every important moment with precision and creativity."},
-  {name:"Reels & Social Media Content",icon:"📱",desc:"In today's digital world, engaging content matters. We create high-quality reels, highlight videos, and social media content that help individuals, brands, artists, and businesses showcase their stories professionally."},
+  {name:"Wedding Photography",icon:'<img src="images.png/3.png" alt="Wedding Photography"/>',desc:"Your wedding day is one of the most important milestones of your life. We capture every beautiful detail, genuine emotion, and unforgettable moment\u2014from intimate rituals and family interactions to grand celebrations\u2014creating a complete visual story of your special day."},
+  {name:"Cinematic Wedding Films",icon:'<img src="images.png/4.png" alt="Cinematic Wedding Films"/>',desc:"Our cinematic wedding films are crafted to bring your memories to life. Using creative storytelling, professional editing, and cinematic techniques, we create emotional films that allow you to relive the magic of your wedding day again and again."},
+  {name:"Pre-Wedding Photography",icon:'<img src="images.png/5.png" alt="Pre-Wedding Photography"/>',desc:"Celebrate your love story before the wedding with a creative and personalized pre-wedding shoot. We help couples create beautiful memories in stunning locations while capturing their chemistry, emotions, and unique personalities."},
+  {name:"Engagement Photography & Films",icon:'<img src="images.png/6.png" alt="Engagement Photography"/>',desc:"Engagement ceremonies mark the beginning of a beautiful journey. We document every smile, every promise, and every celebration with elegant photography and cinematic coverage."},
+  {name:"Maternity Photography",icon:'<img src="images.png/7.png" alt="Maternity Photography"/>',desc:"Motherhood is one of life\u2019s most beautiful chapters. Our maternity sessions are designed to capture the joy, excitement, and love surrounding this special time, creating memories that families will treasure forever."},
+  {name:"Baby & Family Photography",icon:'<img src="images.png/8.png" alt="Baby & Family Photography"/>',desc:"From newborn moments to family celebrations, we create warm and natural photographs that preserve the bonds, happiness, and milestones of your growing family."},
+  {name:"Event Photography & Videography",icon:'<img src="images.png/9.png" alt="Event Photography"/>',desc:"Whether it\u2019s a birthday, anniversary, corporate event, cultural program, or special celebration, we provide professional coverage that captures every important moment with precision and creativity."},
+  {name:"Reels & Social Media Content",icon:'<img src="images.png/10.png" alt="Reels & Social Media"/>',desc:"In today\u2019s digital world, engaging content matters. We create high-quality reels, highlight videos, and social media content that help individuals, brands, artists, and businesses showcase their stories professionally."},
   {name:"Album Designing & Premium Prints",icon:"📖",desc:"Your memories deserve more than a screen. We offer premium album designs, high-quality prints, and customized memory collections that transform your photographs into timeless keepsakes."},
   {name:"Drone Photography & Videography",icon:"🚁",desc:"Capture breathtaking aerial views of your events and locations with professional drone coverage, adding a cinematic perspective and grandeur to your final photographs and films."}
 ];
