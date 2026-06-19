@@ -739,47 +739,29 @@ function openLightbox(src,lbl){
 function closeLightbox(){document.getElementById('lightbox').classList.remove('active');}
 
 // ── FORM ──────────────────────────────────────────────────────────────────
-async function submitForm(){
-  const name = document.getElementById('f-name').value.trim();
-  const phone = document.getElementById('f-phone').value.trim();
-  const email = document.getElementById('f-email').value.trim();
-  const date = document.getElementById('f-date').value;
+function submitForm(){
+  const fullName = document.getElementById('f-name').value;
+  const phone = document.getElementById('f-phone').value;
+  const email = document.getElementById('f-email').value;
+  const eventDate = document.getElementById('f-date').value;
   const service = document.getElementById('f-service').value;
-  const message = document.getElementById('f-msg').value.trim();
+  const message = document.getElementById('f-msg').value;
 
-  if(!name || !phone){
-    alert('Please enter your name and phone number.');
-    return;
-  }
+  const subject = `New Booking Enquiry – ${service}`;
+  const body =
+`New Enquiry from Website – The Utsav Studio
 
-  // Show loading state
-  const btn = document.querySelector('.btn-submit');
-  const originalText = btn.innerHTML;
-  btn.innerHTML = '⏳ Sending...';
-  btn.disabled = true;
+Full Name: ${fullName}
+Phone Number: ${phone}
+Email Address: ${email}
+Event Date: ${eventDate}
+Service Required: ${service}
 
-  try{
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ name, phone, email, date, service, message })
-    });
-    const data = await res.json();
+Message:
+${message}`;
 
-    if(data.success){
-      document.getElementById('contact-form-wrap').style.display='none';
-      document.getElementById('form-thanks').classList.add('show');
-    } else {
-      alert(data.error || 'Something went wrong. Please try again.');
-    }
-  } catch(err){
-    // Fallback: still show thank you if network fails
-    document.getElementById('contact-form-wrap').style.display='none';
-    document.getElementById('form-thanks').classList.add('show');
-  } finally {
-    btn.innerHTML = originalText;
-    btn.disabled = false;
-  }
+  const mailtoLink = `mailto:kanarabhavesh5@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoLink;
 }
 
 // ── CHAT ──────────────────────────────────────────────────────────────────
