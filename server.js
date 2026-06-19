@@ -228,17 +228,22 @@ app.get('/', (req, res) => {
 });
 
 // ── START SERVER ───────────────────────────────────────────────
-const HOST = '0.0.0.0';
-app.listen(PORT, HOST, async () => {
-  console.log('');
-  console.log('═══════════════════════════════════════════════');
-  console.log('  🕉️  THE UTSAV STUDIO — Server Running');
-  console.log('═══════════════════════════════════════════════');
-  console.log(`  🌐 Website:  http://${HOST}:${PORT}`);
-  console.log(`  📬 API:      http://${HOST}:${PORT}/api/contact`);
-  console.log(`  💬 Chat:     http://${HOST}:${PORT}/api/chat`);
-  console.log('═══════════════════════════════════════════════');
-  console.log('');
+// Only listen locally — Vercel handles serverless invocation
+if (!process.env.VERCEL) {
+  const HOST = '0.0.0.0';
+  app.listen(PORT, HOST, async () => {
+    console.log('');
+    console.log('═══════════════════════════════════════════════');
+    console.log('  🕉️  THE UTSAV STUDIO — Server Running');
+    console.log('═══════════════════════════════════════════════');
+    console.log(`  🌐 Website:  http://${HOST}:${PORT}`);
+    console.log(`  📬 API:      http://${HOST}:${PORT}/api/contact`);
+    console.log(`  💬 Chat:     http://${HOST}:${PORT}/api/chat`);
+    console.log('═══════════════════════════════════════════════');
+    console.log('');
+    await initTransporter();
+  });
+}
 
-  await initTransporter();
-});
+// Export for Vercel serverless
+module.exports = app;
